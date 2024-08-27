@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
-import colors from "tailwindcss/colors";
+import colors, { gray } from "tailwindcss/colors";
 
 const baseColors = [
   "gray",
@@ -41,6 +41,18 @@ const generateThemeObject = (colors: any, mapping: any, invert = false) => {
 const lightTheme = generateThemeObject(colors, shadeMapping);
 const darkTheme = generateThemeObject(colors, shadeMapping, true);
 
+const themese = {
+  light: {
+    ...lightTheme,
+    white: "#FFFFFF",
+  },
+  dark: {
+    ...darkTheme,
+    white: colors.gray["900"],
+    black: colors.gray["50"],
+  },
+};
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -48,6 +60,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    darkMode: "class",
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -56,6 +69,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [createThemes(themese)],
 };
 export default config;
