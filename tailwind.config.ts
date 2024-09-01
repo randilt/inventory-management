@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
-import colors, { gray } from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
 
 const baseColors = [
   "gray",
@@ -30,9 +30,9 @@ const generateThemeObject = (colors: any, mapping: any, invert = false) => {
   const theme: any = {};
   baseColors.forEach((color) => {
     theme[color] = {};
-    Object.entries(mapping).forEach(([key, value]) => {
+    Object.entries(mapping).forEach(([key, value]: any) => {
       const shadeKey = invert ? value : key;
-      theme[color][key] = colors[`${color}-${shadeKey}`];
+      theme[color][key] = colors[color][shadeKey];
     });
   });
   return theme;
@@ -41,26 +41,26 @@ const generateThemeObject = (colors: any, mapping: any, invert = false) => {
 const lightTheme = generateThemeObject(colors, shadeMapping);
 const darkTheme = generateThemeObject(colors, shadeMapping, true);
 
-const themese = {
+const themes = {
   light: {
     ...lightTheme,
-    white: "#FFFFFF",
+    white: "#ffffff",
   },
   dark: {
     ...darkTheme,
-    white: colors.gray["900"],
+    white: colors.gray["950"],
     black: colors.gray["50"],
   },
 };
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    darkMode: "class",
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -69,6 +69,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [createThemes(themese)],
+  plugins: [createThemes(themes)],
 };
+
 export default config;
